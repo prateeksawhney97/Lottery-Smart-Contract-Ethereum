@@ -95,4 +95,14 @@ describe('Lottery Contract', ()=> {
     const difference = finalBalance - initialBalance;
     assert(difference > web3.utils.toWei('1.8', 'ether'));
   });
+
+  it('balance of lottery is zero after execution of pickWinner function', async ()=> {
+    await lottery.methods.enter().send({
+      from: accounts[0], value: web3.utils.toWei('4', 'ether')
+    });
+    const players = await lottery.methods.getPlayers().call({from: accounts[0]});
+    await lottery.methods.pickWinner().send({from: accounts[0]});
+
+    assert(players.length, undefined );
+  });
 });
